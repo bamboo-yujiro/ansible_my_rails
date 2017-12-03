@@ -1,0 +1,17 @@
+---
+- hosts: all
+  gather_facts: False
+
+  tasks:
+  - name: install python 2
+    raw: sudo su && test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+
+- name: Build a Rails development environment
+  hosts: web
+  sudo: yes
+  sudo_user: root
+
+  roles:
+    - mysql
+
+
