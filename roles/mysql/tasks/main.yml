@@ -13,8 +13,12 @@
   service: name=mysql state=started enabled=true
 
 - name: Remove my.cnf
-  command: rm /etc/alternatives/my.cnf
-  command: rm /etc/mysql/my.cnf.fallback
+  file:
+    state: absent
+    path: /etc/alternatives/my.cnf
+  file:
+    state: absent
+    path: /etc/mysql/my.cnf.fallback
 
 - name: Put my.cnf
   template: src=my.cnf.j2 dest=/etc/mysql/my.cnf backup=true mode=0644

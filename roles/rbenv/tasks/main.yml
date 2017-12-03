@@ -1,0 +1,36 @@
+---
+- name: Install dependencies for rbenv
+  apt: name={{ item }} state=latest
+  with_items:
+    - git
+
+- name: Install rbenv
+  become: no
+  git: repo=https://github.com/sstephenson/rbenv.git dest=~/.rbenv
+
+- name: Install dependencies for ruby-build (see. https://github.com/sstephenson/ruby-build/wiki)
+  apt: name={{ item }} state=latest
+  with_items:
+    - autoconf
+    - bison
+    - build-essential
+    - libssl-dev
+    - libyaml-dev
+    - libreadline6-dev
+    - zlib1g-dev
+    - libncurses5-dev
+    - libffi-dev
+    - libgdbm3
+    - libgdbm-dev
+
+- name: Install ruby-build as rbenv plugin
+  become: no
+  git: repo=https://github.com/sstephenson/ruby-build.git dest=~/.rbenv/plugins/ruby-build
+
+- name: Install ruby
+  become: no
+  command: "~/.rbenv/bin/rbenv install {{ rbenv_ruby_version }}"
+
+- name: Set default ruby version
+  become: no
+  command: "~/.rbenv/bin/rbenv global {{ rbenv_ruby_version }}"
