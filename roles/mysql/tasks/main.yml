@@ -1,18 +1,29 @@
 ---
 - name: Add repository for mysql
-  apt_repository: repo='deb http://archive.ubuntu.com/ubuntu trusty universe' state=latest
+  apt_repository: repo='deb http://archive.ubuntu.com/ubuntu trusty universe' state=present
 
 - name: Install mysql
   apt: name={{ item }} state=latest
   with_items:
     - mysql-server-5.6
     - mysql-client-5.6
+    - python-mysqldb
 
 - name: Set mysql service to start on boot
   service: name=mysql state=started enabled=true
 
+- name: Remove my.cnf
+  command: rm /etc/alternatives/my.cnf
+  command: rm /etc/mysql/my.cnf.fallback
+
+- name: Put my.cnf
+  template: src=my.cnf.j2 dest=/etc/mysql/my.cnf backup=true mode=0644
+
 - name: Put my-develop.cnf
   template: src=my-develop.cnf.j2 dest=/etc/mysql/conf.d/my-develop.cnf backup=true mode=0644
+
+- name: Put mysql.cnf
+  template: src=mysql.cnf.j2 dest=/etc/mysql/conf.d/mysql.cnf backup=true mode=0644
   notify: restart mysql
 
 - name: Set the root privileges
