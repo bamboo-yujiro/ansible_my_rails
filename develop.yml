@@ -12,4 +12,4 @@
   become: yes
 
   roles:
-    - rbenv
+    - nodejs
