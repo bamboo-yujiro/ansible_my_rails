@@ -6,31 +6,15 @@
 
 - name: cache clean
   command: npm cache clean
-  with_first_found:
-    - files:
-      - /usr/local/bin/node
-      skip: true
 
 - name: install n
   command: npm install n -g
-  with_first_found:
-    - files:
-      - /usr/local/bin/node
-      skip: true
 
 - name: n stable
   command: n stable
-  with_first_found:
-    - files:
-      - /usr/local/bin/node
-      skip: true
 
 - name: Install Node.js with n package
   command: ln -sf /usr/local/bin/node /usr/bin/node
-  with_first_found:
-    - files:
-      - /usr/local/bin/node
-      skip: true
 
 - name: Uninstall old packages
   apt: >

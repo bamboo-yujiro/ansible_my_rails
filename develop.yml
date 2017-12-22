@@ -12,4 +12,8 @@
   become: yes
 
   roles:
+    - mysql
+    - rbenv
     - nodejs
+    - prepare_rails
+

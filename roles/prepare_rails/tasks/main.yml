@@ -1,0 +1,9 @@
+- name: Prepare rails
+  apt: name={{ item }} state=latest
+  with_items:
+    - libmysqlclient-dev
+    - libmagic-dev
+    - imagemagick
+    - libmagickcore-dev
+    - libmagickwand-dev
+
